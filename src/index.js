@@ -101,7 +101,11 @@ JackdClient.prototype.connect = async function() {
   let buffer = ''
   let pendingCommandResult = ''
 
-  socket.on('data', async response => {
+  socket.on('data', response => {
+    receiveChunk(response)
+  })
+
+  const receiveChunk = async response => {
     buffer += response
 
     while (buffer) {
@@ -117,10 +121,24 @@ JackdClient.prototype.connect = async function() {
         break
       }
 
-      const { handler, multipart } = this.pending[0] || {}
+      const { command, handler, multipart } = this.pending[0] || {};
+
+      const reserveWithTimeoutCmd = "reserve-with-timeout";
+      let k = 0;
+      let isReserveWithTimeout = true;
+      while(k < reserveWithTimeoutCmd.length && isReserveWithTimeout) {
+        if (command[k] !== reserveWithTimeoutCmd[k]) {
+          isReserveWithTimeout = false;
+        }
+        k++;
+      }
 
       if (handler && containsCommand && multipart && !pendingCommandResult) {
-        pendingCommandResult = head
+        if (head === TIMED_OUT && isReserveWithTimeout) {
+          await handler(head);
+        } else {
+          pendingCommandResult = head
+        }
       } else if (
         handler &&
         containsCommand &&
@@ -135,7 +153,7 @@ JackdClient.prototype.connect = async function() {
 
       buffer = tail
     }
-  })
+  }
 
   return this
 }

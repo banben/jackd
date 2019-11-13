@@ -7,7 +7,7 @@ export = JackdClient
 declare class JackdClient {
   constructor()
 
-  connect(options: JackdClient.ConnectOptions): Promise<JackdClient>
+  connect(options?: JackdClient.ConnectOptions): Promise<JackdClient>
   disconnect(): Promise<void>
 
   put(
@@ -17,6 +17,7 @@ declare class JackdClient {
   reserve(): Promise<JackdClient.Job>
   delete(jobId: string): Promise<void>
   release(jobId: string, options?: JackdClient.ReleaseOptions): Promise<void>
+  reserveWithTimeout(timeoutSeconds: number): Promise<JackdClient.Job>
   bury(jobId: string): Promise<void>
   kickJob(jobId: string): Promise<void>
   kick(jobsCount: number): Promise<void>
