@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/getjackd/jackd.git"
+    "url": "git+https://github.com/banben/jackd.git"
   },
   "keywords": [
     "beanstalkd"
@@ -16,9 +16,9 @@
   "author": "Dexter Miguel",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/getjackd/jackd/issues"
+    "url": "https://github.com/banben/jackd/issues"
   },
-  "homepage": "https://github.com/getjackd/jackd#readme",
+  "homepage": "https://github.com/banben/jackd#readme",
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^6.0.1",
